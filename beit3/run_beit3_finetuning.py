@@ -16,11 +16,11 @@ import os
 
 from pathlib import Path
 
-from timm.data.mixup import Mixup
-from timm.models import create_model
-from timm.utils import ModelEma
-from optim_factory import create_optimizer, get_parameter_groups, \
-    LayerDecayValueAssigner, get_is_head_flag_for_vit
+# from timm.data.mixup import Mixup
+# from timm.models import create_model
+# from timm.utils import ModelEma
+# from optim_factory import create_optimizer, get_parameter_groups, \
+#     LayerDecayValueAssigner, get_is_head_flag_for_vit
 
 from engine_for_finetuning import train_one_epoch, get_handler, evaluate
 from datasets import create_downstream_dataset

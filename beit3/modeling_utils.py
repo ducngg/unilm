@@ -8,7 +8,7 @@
 import math
 import torch
 import torch.nn as nn
-from timm.models.layers import trunc_normal_ as __call_trunc_normal_
+# from timm.models.layers import trunc_normal_ as __call_trunc_normal_
 
 from torchscale.model.BEiT3 import BEiT3
 from torchscale.architecture.config import EncoderConfig
@@ -49,7 +49,7 @@ class BEiT3Wrapper(nn.Module):
         super().__init__()
         self.args = args
         self.beit3 = BEiT3(args)
-        self.apply(self._init_weights)
+        # self.apply(self._init_weights)
 
     def fix_init_weight(self):
         def rescale(param, layer_id):
@@ -67,6 +67,7 @@ class BEiT3Wrapper(nn.Module):
         return {'pos_embed', 'cls_token', 'beit3.encoder.embed_positions.A.weight', 'beit3.vision_embed.cls_token', 'logit_scale'}
 
     def _init_weights(self, m):
+        return 
         if isinstance(m, nn.Linear):
             trunc_normal_(m.weight, std=.02)
             if isinstance(m, nn.Linear) and m.bias is not None:

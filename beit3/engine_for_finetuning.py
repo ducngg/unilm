@@ -14,9 +14,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from timm.utils import ModelEma
-from timm.utils import accuracy, ModelEma
-from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
+# from timm.utils import ModelEma
+# from timm.utils import accuracy, ModelEma
+# from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
 from datasets import get_sentencepiece_model_for_beit3
 
 import utils
@@ -200,6 +200,7 @@ class VQAHandler(TaskHandler):
         self.predictions = []
         self.criterion = nn.BCEWithLogitsLoss(reduction='mean')
         self.label2ans = None
+        self.iter = 0
 
     def train_batch(self, model, image, language_tokens, padding_mask, labels):
         logits = model(
@@ -229,6 +230,16 @@ class VQAHandler(TaskHandler):
                     "question_id": image_id.item(), 
                     "answer": self.label2ans[pred.item()], 
                 })
+
+        with open(
+            f'/llm_vo_hoang_nhat_khang/workspace/tijepa/vqa_dataset/pred_test/iter_{self.iter}.json',
+            'w'
+        ) as f:
+            json.dump(self.predictions, f)
+            
+        print(f"DONE iter {self.iter}: {len(self.predictions)=}")
+        self.iter += 1
+        
 
     def after_eval(self, **kwargs):
         if len(self.predictions) == 0:
@@ -456,7 +467,7 @@ def train_one_epoch(
         optimizer: torch.optim.Optimizer, device: torch.device, 
         handler: TaskHandler, epoch: int, start_steps: int, 
         lr_schedule_values: list, loss_scaler, max_norm: float = 0, 
-        update_freq: int = 1, model_ema: Optional[ModelEma] = None, 
+        update_freq: int = 1, model_ema = None, 
         log_writer: Optional[utils.TensorboardLogger] = None, 
         task = None, mixup_fn=None,
 ):

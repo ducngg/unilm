@@ -13,9 +13,18 @@ import glob
 from collections import defaultdict, Counter
 from torchvision import transforms
 from torchvision.datasets.folder import default_loader
-from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD, IMAGENET_INCEPTION_MEAN, IMAGENET_INCEPTION_STD
-from timm.data.transforms import RandomResizedCropAndInterpolation
-from timm.data import create_transform
+DEFAULT_CROP_PCT = 0.875
+DEFAULT_CROP_MODE = 'center'
+IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
+IMAGENET_INCEPTION_MEAN = (0.5, 0.5, 0.5)
+IMAGENET_INCEPTION_STD = (0.5, 0.5, 0.5)
+IMAGENET_DPN_MEAN = (124 / 255, 117 / 255, 104 / 255)
+IMAGENET_DPN_STD = tuple([1 / (.0167 * 255)] * 3)
+OPENAI_CLIP_MEAN = (0.48145466, 0.4578275, 0.40821073)
+OPENAI_CLIP_STD = (0.26862954, 0.26130258, 0.27577711)
+# from timm.data.transforms import RandomResizedCropAndInterpolation
+# from timm.data import create_transform
 
 import utils
 from glossary import normalize_word
@@ -810,7 +819,7 @@ def get_sentencepiece_model_for_beit3(args):
     return XLMRobertaTokenizer(args.sentencepiece_model)
 
 
-def create_dataset_by_split(args, split, is_train=True):
+def create_dataset_by_split(args, split, is_train=False):
     transform = build_transform(is_train=is_train, args=args)
     dataset_class = task2dataset[args.task]
     tokenizer = get_sentencepiece_model_for_beit3(args)

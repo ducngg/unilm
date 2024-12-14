@@ -15,13 +15,13 @@ import argparse
 import numpy as np
 from pathlib import Path
 from collections import defaultdict, deque
-from timm.utils import get_state_dict
+# from timm.utils import get_state_dict
 
 import torch
 import torch.distributed as dist
 import torch.nn as nn
 import torch.nn.functional as F
-from torch._six import inf
+from torch import inf
 from torchmetrics import Metric
 from tensorboardX import SummaryWriter
 
@@ -835,40 +835,40 @@ class BeamHypotheses(object):
 
 
 def dump_predictions(args, result, file_suffix):
-    global_rank = get_rank()
-    jsons = None
-    if global_rank >= 0:
-        output_file = os.path.join(args.task_cache_path, f"submit_{global_rank}_{file_suffix}.json")
-        with open(output_file, "w") as fp:
-            json.dump(result, fp, indent=2)
-        torch.distributed.barrier()
+    # global_rank = get_rank()
+    # jsons = None
+    # if global_rank >= 0:
+    #     output_file = os.path.join(args.task_cache_path, f"submit_{global_rank}_{file_suffix}.json")
+    #     with open(output_file, "w") as fp:
+    #         json.dump(result, fp, indent=2)
+    #     torch.distributed.barrier()
 
-        if global_rank == 0:
-            world_size = get_world_size()
-            jsons = []
-            for i in range(world_size):
-                each_file = os.path.join(args.task_cache_path, f"submit_{i}_{file_suffix}.json")
-                with open(each_file, "r") as fp:
-                    jsons += json.load(fp)
+    #     if global_rank == 0:
+    #         world_size = get_world_size()
+    #         jsons = []
+    #         for i in range(world_size):
+    #             each_file = os.path.join(args.task_cache_path, f"submit_{i}_{file_suffix}.json")
+    #             with open(each_file, "r") as fp:
+    #                 jsons += json.load(fp)
             
-            new_jsons = []
-            res_dict = dict()
-            if args.task in ["coco_captioning", "nocaps"]:
-                qid_key = "image_id"
-            else:
-                # for VQAv2
-                qid_key = "question_id"
-            for item in jsons:
-                if item[qid_key] in res_dict:
-                    continue
-                new_jsons.append(item)
-                res_dict[item[qid_key]] = item
-            jsons = new_jsons
+    #         new_jsons = []
+    #         res_dict = dict()
+    #         if args.task in ["coco_captioning", "nocaps"]:
+    #             qid_key = "image_id"
+    #         else:
+    #             # for VQAv2
+    #             qid_key = "question_id"
+    #         for item in jsons:
+    #             if item[qid_key] in res_dict:
+    #                 continue
+    #             new_jsons.append(item)
+    #             res_dict[item[qid_key]] = item
+    #         jsons = new_jsons
 
-        torch.distributed.barrier()
-        os.remove(output_file)
-    else:
-        jsons = result
+    #     torch.distributed.barrier()
+    #     os.remove(output_file)
+    # else:
+    jsons = result
     
     result_file = os.path.join(args.output_dir, f"submit_{file_suffix}.json")
     if jsons is not None:

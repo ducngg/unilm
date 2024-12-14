@@ -8,7 +8,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from timm.models.registry import register_model
+# from timm.models.registry import register_model
 import numpy as np
 
 import utils
@@ -274,7 +274,7 @@ class BEiT3ForRetrieval(BEiT3Wrapper):
             return loss, vision_cls, language_cls
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_224_imageclassification(pretrained=False, **kwargs):
     args = _get_base_config(**kwargs)
     args.normalize_output = False
@@ -282,7 +282,7 @@ def beit3_base_patch16_224_imageclassification(pretrained=False, **kwargs):
     return model
 
 
-@register_model
+# @register_model
 def beit3_large_patch16_224_imageclassification(pretrained=False, **kwargs):
     args = _get_large_config(**kwargs)
     args.normalize_output = False
@@ -290,21 +290,21 @@ def beit3_large_patch16_224_imageclassification(pretrained=False, **kwargs):
     return model
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_224_nlvr2(pretrained=False, **kwargs):
     args = _get_base_config(**kwargs)
     model = BEiT3ForVisualReasoning(args, num_classes=2, **kwargs)
     return model
 
 
-@register_model
+# @register_model
 def beit3_large_patch16_224_nlvr2(pretrained=False, **kwargs):
     args = _get_large_config(**kwargs)
     model = BEiT3ForVisualReasoning(args, num_classes=2, **kwargs)
     return model
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_384_vqav2(pretrained=False, **kwargs):
     args = _get_base_config(img_size=384, **kwargs)
     args.normalize_output = False
@@ -312,7 +312,7 @@ def beit3_base_patch16_384_vqav2(pretrained=False, **kwargs):
     return model
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_480_vqav2(pretrained=False, **kwargs):
     args = _get_base_config(img_size=480, **kwargs)
     args.normalize_output = False
@@ -320,7 +320,7 @@ def beit3_base_patch16_480_vqav2(pretrained=False, **kwargs):
     return model
 
 
-@register_model
+# @register_model
 def beit3_large_patch16_384_vqav2(pretrained=False, **kwargs):
     args = _get_large_config(img_size=384, **kwargs)
     args.normalize_output = False
@@ -328,7 +328,7 @@ def beit3_large_patch16_384_vqav2(pretrained=False, **kwargs):
     return model
 
 
-@register_model
+# @register_modelBEiT3ForVisualQuestionAnswering
 def beit3_large_patch16_480_vqav2(pretrained=False, **kwargs):
     args = _get_large_config(img_size=480, **kwargs)
     args.normalize_output = False
@@ -336,7 +336,7 @@ def beit3_large_patch16_480_vqav2(pretrained=False, **kwargs):
     return model
 
 
-@register_model
+# @register_model
 def beit3_large_patch16_768_vqav2(pretrained=False, **kwargs):
     args = _get_large_config(img_size=768, **kwargs)
     args.normalize_output = False
@@ -344,42 +344,42 @@ def beit3_large_patch16_768_vqav2(pretrained=False, **kwargs):
     return model
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_224_captioning(pretrained=False, **kwargs):
     args = _get_base_config(**kwargs)
     model = BEiT3ForCaptioning(args, **kwargs)
     return model
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_480_captioning(pretrained=False, **kwargs):
     args = _get_base_config(img_size=480, **kwargs)
     model = BEiT3ForCaptioning(args, **kwargs)
     return model
 
 
-@register_model
+# @register_model
 def beit3_large_patch16_480_captioning(pretrained=False, **kwargs):
     args = _get_large_config(img_size=480, **kwargs)
     model = BEiT3ForCaptioning(args, **kwargs)
     return model
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_224_retrieval(pretrained=False, **kwargs):
     args = _get_base_config(**kwargs)
     model = BEiT3ForRetrieval(args, **kwargs)
     return model
 
 
-@register_model
+# @register_model
 def beit3_base_patch16_384_retrieval(pretrained=False, **kwargs):
     args = _get_base_config(img_size=384, **kwargs)
     model = BEiT3ForRetrieval(args, **kwargs)
     return model
 
 
-@register_model
+# @register_model
 def beit3_large_patch16_384_retrieval(pretrained=False, **kwargs):
     args = _get_large_config(img_size=384, **kwargs)
     model = BEiT3ForRetrieval(args, **kwargs)
